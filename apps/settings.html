@@ -1,0 +1,19 @@
+<div class="app">
+  <h2>⚙️ Ayarlar</h2>
+  <label>Arkaplan Rengi:</label>
+  <input type="color" id="bgcolor" value="#f2f2f2">
+  <button onclick="changeTheme()">Uygula</button>
+</div>
+
+<script>
+function changeTheme() {
+  const color = document.getElementById("bgcolor").value;
+  document.body.style.background = color;
+  localStorage.setItem("themeColor", color);
+}
+
+(function restoreTheme() {
+  const color = localStorage.getItem("themeColor");
+  if (color) document.body.style.background = color;
+})();
+</script>
