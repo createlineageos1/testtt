@@ -1,20 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AndroWebOS</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <div id="status-bar">12:00 | WiFi | Batarya</div>
-  <div id="launcher">
-    <div class="app-icon" onclick="launchApp('apps/filemanager.html')">Dosyalar</div>
-    <div class="app-icon" onclick="launchApp('apps/settings.html')">Ayarlar</div>
+
+  <div class="statusbar">
+    <span id="time">12:00</span>
+    <span>📶 🔋</span>
   </div>
 
-  <div id="app-window"></div>
+  <div class="home-screen">
+    <div class="app-icon" onclick="launchApp('apps/filemanager.html')">
+      <img src="assets/icons/files.svg">
+      <p>Dosyalar</p>
+    </div>
+    <div class="app-icon" onclick="launchApp('apps/settings.html')">
+      <img src="assets/icons/settings.svg">
+      <p>Ayarlar</p>
+    </div>
+  </div>
 
-  <script src="js/db.js"></script>
+  <iframe id="app-frame"></iframe>
+
   <script src="js/main.js"></script>
 </body>
 </html>
