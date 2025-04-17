@@ -1,0 +1,56 @@
+<div class="app">
+  <h2>📁 Dosya Yöneticisi</h2>
+  <input type="text" id="filename" placeholder="Dosya adı">
+  <textarea id="filecontent" placeholder="İçerik yaz..."></textarea>
+  <button onclick="saveFile()">Kaydet</button>
+  <hr>
+  <div id="file-list"></div>
+</div>
+
+<script>
+function saveFile() {
+  const name = document.getElementById("filename").value;
+  const content = document.getElementById("filecontent").value;
+  const tx = db.transaction("files", "readwrite");
+  const store = tx.objectStore("files");
+  store.put({ filename: name, content: content });
+
+  tx.oncomplete = () => {
+    alert("Dosya kaydedildi");
+    loadFiles();
+  };
+}
+
+function loadFiles() {
+  const tx = db.transaction("files", "readonly");
+  const store = tx.objectStore("files");
+  const req = store.getAll();
+
+  req.onsuccess = () => {
+    const list = document.getElementById("file-list");
+    list.innerHTML = '';
+    req.result.forEach(file => {
+      const el = document.createElement("div");
+      el.innerHTML = `
+        <strong>${file.filename}</strong>
+        <button onclick="deleteFile('${file.filename}')">🗑</button>
+        <pre>${file.content}</pre>
+      `;
+      list.appendChild(el);
+    });
+  };
+}
+
+function deleteFile(name) {
+  const tx = db.transaction("files", "readwrite");
+  const store = tx.objectStore("files");
+  store.delete(name);
+
+  tx.oncomplete = () => {
+    alert("Dosya silindi");
+    loadFiles();
+  };
+}
+
+setTimeout(loadFiles, 500);
+</script>
